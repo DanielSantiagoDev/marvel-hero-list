@@ -20,7 +20,7 @@ export const fetchAllHeroes = async () => {
   }
 
   const url = `${baseUrl}/characters?ts=${ts}&apikey=${publicKey}&hash=${hash}&limit=15`;
-  const response = await fetch(url);
+  const response = await fetch(url, { cache: 'force-cache' });
   if (!response.ok) {
     throw new Error("Failed to fetch heroes");
   }
