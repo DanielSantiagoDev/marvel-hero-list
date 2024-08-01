@@ -37,5 +37,5 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   };
 };
-
+export const runtime = 'edge';
 export default HeroDetail;

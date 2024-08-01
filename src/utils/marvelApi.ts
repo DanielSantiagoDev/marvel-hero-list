@@ -14,7 +14,7 @@ const hash = require("crypto")
 const CACHE_DURATION = 24 * 60 * 60 * 1000; // 1day
 
 export const fetchAllHeroes = async () => {
-  const cacheKey = "allHeroes11";
+  const cacheKey = "allHeroes";
   const cachedResponse = cache.get(cacheKey);
 
   if (cachedResponse) {

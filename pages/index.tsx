@@ -73,5 +73,5 @@ export const getServerSideProps: GetServerSideProps = async () => {
     },
   };
 };
-
+export const runtime = 'edge';
 export default HomePage;
