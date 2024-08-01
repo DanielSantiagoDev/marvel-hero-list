@@ -10,12 +10,14 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "crypto-js": "^4.2.0",
     "memory-cache": "^0.2.0",
     "next": "^14.2.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
     "@types/memory-cache": "^0.2.6",
     "@types/node": "^20",
     "@types/react": "^18",
