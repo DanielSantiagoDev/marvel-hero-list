@@ -4,14 +4,13 @@ import Header from "./Header";
 interface LayoutProps {
   children: ReactNode;
 }
-
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+function Layout({ children }: LayoutProps) {
   return (
     <>
       <Header />
       <main>{children}</main>
     </>
   );
-};
+}
 
 export default Layout;

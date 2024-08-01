@@ -1,13 +1,17 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from "react";
 
 interface FavoriteContextType {
   favorites: Set<number>;
   handleFavorite: (id: number) => void;
 }
 
-const FavoriteContext = createContext<FavoriteContextType | undefined>(undefined);
-
-export const FavoriteProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+const FavoriteContext = createContext<FavoriteContextType | undefined>(
+  undefined,
+);
+interface ProviderProps {
+  children: ReactNode;
+}
+export const FavoriteProvider = function ({ children }: ProviderProps) {
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
 
   const handleFavorite = (id: number) => {
@@ -18,7 +22,6 @@ export const FavoriteProvider: React.FC<{ children: ReactNode }> = ({ children }
       } else {
         newFavorites.add(id);
       }
-      console.log(newFavorites)
       return newFavorites;
     });
   };
@@ -33,7 +36,7 @@ export const FavoriteProvider: React.FC<{ children: ReactNode }> = ({ children }
 export const useFavorites = (): FavoriteContextType => {
   const context = useContext(FavoriteContext);
   if (!context) {
-    throw new Error('useFavorites must be used in a providerr');
+    throw new Error("useFavorites must be used in a providerr");
   }
   return context;
 };

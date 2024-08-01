@@ -1,0 +1,35 @@
+.container {
+  margin: 0 2rem;
+}
+.searchContainer {
+  padding: 2rem 0;
+}
+.search {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: none;
+  border-bottom: 1px solid var(--border-color);
+  box-sizing: border-box;
+}
+.search:focus {
+  outline: none;
+}
+
+.results {
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.hero-list {
+  display: grid;
+  grid-template-columns: repeat(var(--columns), 1fr);
+  gap: var(--gap);
+  padding: 0;
+  margin: 0;
+}
+.hero-card {
+  list-style-type: none;
+  margin: 0;
+  overflow: hidden;
+}

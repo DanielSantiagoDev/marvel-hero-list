@@ -2,42 +2,38 @@ import React from "react";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import Layout from "../../src/components/Layout";
-import { useFavorites } from '../../src/context/FavoriteContext';
-
-interface Hero {
-  id: number;
-  name: string;
-}
+import { fetchHeroById, fetchComicsByHeroId } from "../../src/utils/marvelApi";
+import { Hero, Comic } from "../../src/types/marvel";
+import HeroCardDetailed from "../../src/components/HeroCardDetailed";
+import ComicList from "../../src/components/ComicList";
 
 interface Props {
   hero: Hero;
+  comics: [Comic];
 }
 
-function HeroDetail({ hero }: Props) {
+function HeroDetail({ hero, comics }: Props) {
   const router = useRouter();
-  const { favorites, handleFavorite } = useFavorites();
   if (router.isFallback) {
     return <div>Loading...</div>;
   }
 
   return (
     <Layout>
-      <h1>{hero.name}</h1>
-      <p>{hero.id}</p>
-      <button onClick={() => handleFavorite(hero.id)}>
-        {favorites.has(hero.id) ? 'Unfavorite' : 'Favorite'}
-      </button>
+      <HeroCardDetailed key={hero.id} hero={hero} />
+      <ComicList comics={comics} />
     </Layout>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { heroId } = context.params!;
-  const hero: Hero = { id: Number(heroId), name: "test2" };
-
+  const hero = await fetchHeroById(heroId as string);
+  const comics = await fetchComicsByHeroId(heroId as string);
   return {
     props: {
       hero,
+      comics,
     },
   };
 };
