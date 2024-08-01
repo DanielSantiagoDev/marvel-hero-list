@@ -1,8 +1,8 @@
 import React from "react";
-import { GetServerSideProps } from "next";
+import { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from "next/router";
 import Layout from "../../src/components/Layout";
-import { fetchHeroById, fetchComicsByHeroId } from "../../src/utils/marvelApi";
+import { fetchHeroById, fetchAllHeroes, fetchComicsByHeroId } from "../../src/utils/marvelApi";
 import { Hero, Comic } from "../../src/types/marvel";
 import HeroCardDetailed from "../../src/components/HeroCardDetailed";
 import ComicList from "../../src/components/ComicList";
@@ -25,8 +25,19 @@ function HeroDetail({ hero, comics }: Props) {
     </Layout>
   );
 }
+export const getStaticPaths: GetStaticPaths = async () => {
+  const heroes = await fetchAllHeroes();
+  const paths = heroes.map(hero => ({
+    params: { heroId: hero.id.toString() },
+  }));
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+  return {
+    paths,
+    fallback: true,
+  };
+};
+
+export const getStaticProps: GetStaticProps  = async (context) => {
   const { heroId } = context.params!;
   const hero = await fetchHeroById(heroId as string);
   const comics = await fetchComicsByHeroId(heroId as string);
@@ -35,6 +46,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       hero,
       comics,
     },
+    revalidate: 86400,
   };
 };
 

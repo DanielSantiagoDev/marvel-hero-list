@@ -1,6 +1,6 @@
 import cache from "memory-cache";
 import CryptoJS from 'crypto-js';
-
+import { Hero } from '../types/marvel';
 const publicKey = process.env.MARVEL_PUBLIC_KEY!;
 const privateKey = process.env.MARVEL_PRIVATE_KEY!;
 
@@ -11,7 +11,7 @@ const hash = CryptoJS.MD5(ts + privateKey + publicKey).toString();
 
 const CACHE_DURATION = 24 * 60 * 60 * 1000; // 1day
 
-export const fetchAllHeroes = async () => {
+export const fetchAllHeroes = async () : Promise<Hero[]> => {
   const cacheKey = "allHeroes";
   const cachedResponse = cache.get(cacheKey);
 
@@ -19,7 +19,7 @@ export const fetchAllHeroes = async () => {
     return cachedResponse;
   }
 
-  const url = `${baseUrl}/characters?ts=${ts}&apikey=${publicKey}&hash=${hash}&limit=15`;
+  const url = `${baseUrl}/characters?ts=${ts}&apikey=${publicKey}&hash=${hash}&limit=25`;
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error("Failed to fetch heroes");

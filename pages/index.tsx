@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { GetServerSideProps } from "next";
+import { GetStaticProps  } from "next";
 import { useFavorites } from "../src/context/FavoriteContext";
 import Layout from "../src/components/Layout";
 import { fetchAllHeroes } from "../src/utils/marvelApi";
@@ -65,16 +65,14 @@ function HomePage({ heroes }: Props) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps  = async () => {
   const heroes = await fetchAllHeroes();
-  context.res.setHeader(
-    'Cache-Control',
-    'public, s-maxage=10, stale-while-revalidate=59'
-  )
+
   return {
     props: {
       heroes,
     },
+    revalidate: 86400,
   };
 };
 
